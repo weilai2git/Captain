@@ -9,5 +9,7 @@ public class MessageWrapper {
 	@Id
 	private String id;
 	
+	private String qName;
+	
 	private Object message;
 }

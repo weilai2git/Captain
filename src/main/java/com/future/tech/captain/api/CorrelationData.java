@@ -17,18 +17,23 @@ package com.future.tech.captain.api;
 public class CorrelationData {
 	
 	private String id;
+	
+	private String refQueueName;
 
 	public String getId() {
 		return id;
 	}
-	
-	@Override
-	public String toString() {
-		return "CorrelationData [id=" + id + "]";
-	}
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getRefQueueName() {
+		return refQueueName;
+	}
+
+	public void setRefQueueName(String refQueueName) {
+		this.refQueueName = refQueueName;
 	}
 	
 }
