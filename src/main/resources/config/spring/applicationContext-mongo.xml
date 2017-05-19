@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/data/mongo
+        http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd">
+
+	<mongo:mongo-client id="captain.mongo" host="localhost" port="27017">
+		<mongo:client-options write-concern="NORMAL" />
+	</mongo:mongo-client>
+
+	<mongo:db-factory id="captain.mongo.db.factory"
+		dbname="captain" mongo-ref="captain.mongo" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="captain.mongo.db.factory" />
+	</bean>
+
+	<mongo:repositories base-package="com.future.tech.captain.dao" />
+
+</beans>

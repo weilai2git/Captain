@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd
+        http://www.springframework.org/schema/rabbit
+        http://www.springframework.org/schema/rabbit/spring-rabbit-1.3.xsd">
+
+	<!--配置connection-factory，指定连接rabbit server参数 -->
+	<rabbit:connection-factory id="captain.rabbitmq.connectionFactory"
+		host="localhost" username="admin"
+		password="admin" port="5672"
+		virtual-host="captain" />
+
+	<!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 -->
+	<rabbit:admin id="captain.rabbitmq.connectionFactoryAdmin"
+		connection-factory="captain.rabbitmq.connectionFactory" />
+
+	<!-- fanout exchange，绑定com.mj.test queue -->
+	<rabbit:fanout-exchange id="captain.rabbitmq.fanout-exchange.test"
+		name="captain.fanout.textExchange">
+	</rabbit:fanout-exchange>
+
+	<!--定义rabbit template用于数据的发送 -->
+	<rabbit:template id="captain.rabbitmq.template"
+		connection-factory="captain.rabbitmq.connectionFactory" exchange="captain.fanout.textExchange" />
+
+
+</beans>
