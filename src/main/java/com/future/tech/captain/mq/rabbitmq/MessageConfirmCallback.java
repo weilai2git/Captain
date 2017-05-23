@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import com.future.tech.captain.domain.MessageWrapperIdentity;
 import com.future.tech.captain.repository.MessageRepository;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
