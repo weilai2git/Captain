@@ -69,6 +69,11 @@
 			<artifactId>spring-rabbit</artifactId>
 			<version>1.7.2.RELEASE</version>
 		</dependency>
+		<dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-client</artifactId>
+            <version>4.0.0-incubating</version>
+        </dependency>
 
 
 		<!-- test -->
