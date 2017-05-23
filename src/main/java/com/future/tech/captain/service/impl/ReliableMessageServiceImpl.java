@@ -47,9 +47,18 @@ public class ReliableMessageServiceImpl implements ReliableMessageService {
 	 * .tech.captain.api.CorrelationData, java.lang.Object)
 	 */
 	@Override
-	public void prepare(CorrelationData correlationData, Object message) {
-		MessageWrapper messageWrapper = messageWrapperFactory.make(config.getAppName(), correlationData, message);
-		messageRepository.store(messageWrapper);
+	public boolean prepare(CorrelationData correlationData, Object message) {
+		try {
+			MessageWrapper messageWrapper = messageWrapperFactory.make(config.getAppName(), correlationData, message);
+			messageWrapper = messageRepository.store(messageWrapper);
+			if (messageWrapper != null) {
+				return true;
+			}
+			return false;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		return false;
 	}
 
 	/*
@@ -64,15 +73,17 @@ public class ReliableMessageServiceImpl implements ReliableMessageService {
 		MessageWrapperIdentity messageWrapperIdentity = new MessageWrapperIdentity(config.getAppName(),
 				correlationData.getId());
 		MessageWrapper messageWrapper = messageRepository.loadMessage(messageWrapperIdentity);
-		if ( messageWrapper != null && messageWrapper.isReady2Confirm() ) {
+		if (messageWrapper != null && messageWrapper.isReady2Confirm()) {
 			MessageSender messageSender = config.findMessageSender(messageWrapper.getMessageSenderName());
-			if (messageSender == null ) {
+			if (messageSender == null) {
 				// if can not find message sender, do nothing here
 				return;
 			}
-			if (messageSender.send(messageWrapper.getId(), messageWrapper.getMessage()) && messageSender.isSynConfirm()) {
-				messageWrapper.confirm();
-				messageRepository.store(messageWrapper);
+			if (messageSender.send(messageWrapper.getId(), messageWrapper.getMessage())
+					&& messageSender.isSynConfirm()) {
+				if (messageWrapper.confirm()) {
+					messageRepository.store(messageWrapper);
+				}
 			}
 		} else {
 			log.error("Confirm ERROR!, msgWrapper = " + messageWrapper);
@@ -91,8 +102,7 @@ public class ReliableMessageServiceImpl implements ReliableMessageService {
 		MessageWrapperIdentity messageWrapperIdentity = new MessageWrapperIdentity(config.getAppName(),
 				correlationData.getId());
 		MessageWrapper messageWrapper = messageRepository.loadMessage(messageWrapperIdentity);
-		if ( messageWrapper != null  && messageWrapper.isReady2Cancel() ) {
-			messageWrapper.cancel();
+		if (messageWrapper != null && messageWrapper.cancel()) {
 			messageRepository.store(messageWrapper);
 		} else {
 			log.error("Cancel ERROR!, msgWrapper = " + messageWrapper);

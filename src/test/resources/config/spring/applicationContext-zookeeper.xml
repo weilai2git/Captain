@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<bean id="retryPolicy" class="org.apache.curator.retry.ExponentialBackoffRetry">
+        <constructor-arg index="0" value="1000" /> 
+        <constructor-arg index="1" value="3" />
+    </bean>
+    
+	<bean id="captain.curatorClient" class="org.apache.curator.framework.CuratorFrameworkFactory"
+		factory-method="newClient" init-method="start">
+		<constructor-arg index="0" value="127.0.0.1:2181" />
+		<constructor-arg index="1" value="15000" />
+		<constructor-arg index="2" value="10000" />
+		<constructor-arg index="3" ref="retryPolicy" />
+	</bean>
+
+</beans>
