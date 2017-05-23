@@ -8,7 +8,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration({ "classpath:/config/spring/applicationContext.xml",
 		"classpath:/config/spring/applicationContext-mongo.xml",
 		"classpath:/config/spring/applicationContext-rabbitMq.xml",
-		"classpath:/config/spring/applicationContext-reliableMessageConfig.xml"})
+		"classpath:/config/spring/applicationContext-reliableMessageConfig.xml",
+		"classpath:/config/spring/applicationContext-zookeeper.xml"})
 public abstract class AbstractSpringTests {
 
 }

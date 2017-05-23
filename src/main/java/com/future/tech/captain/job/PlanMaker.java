@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author weilai May 22, 2017
  */
 
-@Component("defaultPlanMaker")
+@Component("captain.defaultPlanMaker")
 @Slf4j
 public class PlanMaker {
 
@@ -66,14 +66,16 @@ public class PlanMaker {
 		correlationData.setId(messageWrapperIdentity.getOriginId());
 		correlationData.setMessageConfirmCheckerName(messageWrapper.getMessageConfirmCheckerName());
 		correlationData.setMessageSenderName(messageWrapper.getMessageSenderName());
+		boolean isNeed2Modify = false;
 		if (messageConfirmChecker.isMessageNeed2Send(correlationData)) {
 			config.findMessageSender(messageWrapper.getMessageSenderName()).send(messageWrapper.getId(),
 					messageWrapper.getMessage());
-			messageWrapper.confirm();
-
+			isNeed2Modify = messageWrapper.confirm();
 		} else {
-			messageWrapper.cancel();
+			isNeed2Modify = messageWrapper.cancel();
 		}
-		messageRepository.store(messageWrapper);
+		if ( isNeed2Modify) {
+			messageRepository.store(messageWrapper);
+		}
 	}
 }

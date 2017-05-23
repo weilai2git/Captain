@@ -4,7 +4,7 @@ import com.future.tech.captain.api.CorrelationData;
 
 public interface ReliableMessageService {
 	
-	void prepare(CorrelationData correlationData, Object message);
+	boolean prepare(CorrelationData correlationData, Object message);
 	
 	void confirm(CorrelationData correlationData);
 	
