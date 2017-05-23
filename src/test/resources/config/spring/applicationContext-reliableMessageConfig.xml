@@ -22,6 +22,12 @@
 		<property name="appName">
 			<value>myApp</value>
 		</property>
+		<property name="planLimit">
+			<value>10</value>
+		</property>
+		<property name="jobWaitSecs">
+			<value>30</value>
+		</property>
 	</bean>
 	
 	

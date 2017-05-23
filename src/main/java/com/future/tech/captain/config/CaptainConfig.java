@@ -5,8 +5,6 @@ package com.future.tech.captain.config;
 
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-
 import com.future.tech.captain.api.MessageConfirmChecker;
 import com.future.tech.captain.mq.MessageSender;
 
@@ -33,7 +31,11 @@ public class CaptainConfig {
 	
 	@Setter
 	@Getter
-	private int planLimit;
+	private int planLimit = 100;
+	
+	@Setter
+	@Getter
+	private int jobWaitSecs = 30;
 
 	public MessageSender findMessageSender(String messageSenderName) {
 		return this.messageSenderHolder.get(messageSenderName);

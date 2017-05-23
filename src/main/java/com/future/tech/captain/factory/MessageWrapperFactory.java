@@ -3,11 +3,14 @@
  */
 package com.future.tech.captain.factory;
 
+import java.util.Date;
+
 import org.springframework.stereotype.Component;
 
 import com.future.tech.captain.api.CorrelationData;
 import com.future.tech.captain.domain.MessageWrapper;
 import com.future.tech.captain.domain.MessageWrapperIdentity;
+import com.future.tech.captain.enums.MessageWrapperStatus;
 
 /**
  * 
@@ -28,6 +31,8 @@ public class MessageWrapperFactory {
 		messageWrapper.setMessageSenderName(correlationData.getMessageSenderName());
 		messageWrapper.setMessageConfirmCheckerName(correlationData.getMessageConfirmCheckerName());
 		messageWrapper.setMessage(message);
+		messageWrapper.setStatus(MessageWrapperStatus.PREPARED.getCode());
+		messageWrapper.setCreatedDate(new Date());
 		return messageWrapper;
 	}
 }

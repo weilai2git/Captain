@@ -13,5 +13,5 @@ public interface MessageRepository {
 	
 	MessageWrapper loadMessage(MessageWrapperIdentity messageWrapperIdentity);
 	
-	List<MessageWrapper> findByAppName(String appName, int limit);
+	List<MessageWrapper> findAllPreparedByAppName(String appName, int limit);
 }

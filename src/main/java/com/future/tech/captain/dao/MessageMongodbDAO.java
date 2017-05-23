@@ -21,5 +21,5 @@ import com.future.tech.captain.domain.MessageWrapper;
  */
 
 public interface MessageMongodbDAO extends MongoRepository<MessageWrapper, String> {
-	List<MessageWrapper> findByAppName(String appName, Pageable pageable);
+	List<MessageWrapper> findByAppNameAndStatus(String appName, int status, Pageable pageable);
 }

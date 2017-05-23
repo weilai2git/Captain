@@ -15,6 +15,8 @@ import com.future.tech.captain.mq.MessageSender;
 import com.future.tech.captain.repository.MessageRepository;
 import com.future.tech.captain.service.ReliableMessageService;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 
  * Title: ReliableMessageServiceImpl.java<br>
@@ -25,6 +27,7 @@ import com.future.tech.captain.service.ReliableMessageService;
  * @author weilai May 19, 2017
  */
 @Service
+@Slf4j
 public class ReliableMessageServiceImpl implements ReliableMessageService {
 
 	@Autowired
@@ -61,13 +64,18 @@ public class ReliableMessageServiceImpl implements ReliableMessageService {
 		MessageWrapperIdentity messageWrapperIdentity = new MessageWrapperIdentity(config.getAppName(),
 				correlationData.getId());
 		MessageWrapper messageWrapper = messageRepository.loadMessage(messageWrapperIdentity);
-		MessageSender messageSender = config.findMessageSender(messageWrapper.getMessageSenderName());
-		if (messageSender == null) {
-			// if can not find message sender, do nothing here
-			return;
-		}
-		if (messageSender.send(messageWrapper.getId(), messageWrapper.getMessage()) && messageSender.isSynConfirm()) {
-			messageRepository.remove(messageWrapperIdentity);
+		if ( messageWrapper != null && messageWrapper.isReady2Confirm() ) {
+			MessageSender messageSender = config.findMessageSender(messageWrapper.getMessageSenderName());
+			if (messageSender == null ) {
+				// if can not find message sender, do nothing here
+				return;
+			}
+			if (messageSender.send(messageWrapper.getId(), messageWrapper.getMessage()) && messageSender.isSynConfirm()) {
+				messageWrapper.confirm();
+				messageRepository.store(messageWrapper);
+			}
+		} else {
+			log.error("Confirm ERROR!, msgWrapper = " + messageWrapper);
 		}
 	}
 
@@ -82,6 +90,12 @@ public class ReliableMessageServiceImpl implements ReliableMessageService {
 	public void cancel(CorrelationData correlationData) {
 		MessageWrapperIdentity messageWrapperIdentity = new MessageWrapperIdentity(config.getAppName(),
 				correlationData.getId());
-		messageRepository.remove(messageWrapperIdentity);
+		MessageWrapper messageWrapper = messageRepository.loadMessage(messageWrapperIdentity);
+		if ( messageWrapper != null  && messageWrapper.isReady2Cancel() ) {
+			messageWrapper.cancel();
+			messageRepository.store(messageWrapper);
+		} else {
+			log.error("Cancel ERROR!, msgWrapper = " + messageWrapper);
+		}
 	}
 }

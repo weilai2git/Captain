@@ -3,6 +3,8 @@
  */
 package com.future.tech.captain.api;
 
+import com.future.tech.captain.api.exception.NotSureException;
+
 /**
  * 
  * Title: MessageConfirmChecker.java<br>
@@ -15,5 +17,5 @@ package com.future.tech.captain.api;
  */
 
 public interface MessageConfirmChecker {
-	boolean isMessageNeed2Send(CorrelationData correlationData);
+	boolean isMessageNeed2Send(CorrelationData correlationData) throws NotSureException;
 }

@@ -5,7 +5,6 @@ package com.future.tech.captain.job.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Scheduled;
 
 import com.future.tech.captain.job.ConfirmMessageJobTrigger;
 import com.future.tech.captain.job.PlanMaker;
@@ -31,7 +30,6 @@ public class DefaultConfirmMessageJobTriggerImpl implements ConfirmMessageJobTri
 	 * @see com.future.tech.captain.job.ConfirmMessageJobTrigger#trigger()
 	 */
 	@Override
-	@Scheduled(fixedRate=60000)
 	public void start() {
 		planMaker.makeAndDoPlan();
 	}
