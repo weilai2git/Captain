@@ -1,5 +1,9 @@
 package com.future.tech.captain.mq;
 
+
 public interface MessageSender {
-	void send(Object message);
+	
+	boolean send(String correlationId, Object message);
+	
+	boolean isSynConfirm();
 }

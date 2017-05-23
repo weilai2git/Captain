@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.future.tech.captain.api.CorrelationData;
 import com.future.tech.captain.domain.MessageWrapper;
+import com.future.tech.captain.domain.MessageWrapperIdentity;
 
 /**
  * 
@@ -20,10 +21,12 @@ import com.future.tech.captain.domain.MessageWrapper;
 @Component
 public class MessageWrapperFactory {
 
-	public MessageWrapper make(CorrelationData correlationData, Object message) {
+	public MessageWrapper make(String appName, CorrelationData correlationData, Object message) {
 		MessageWrapper messageWrapper = new MessageWrapper();
-		messageWrapper.setId(correlationData.getId());
-		messageWrapper.setQName(correlationData.getRefQueueName());
+		messageWrapper.setId(new MessageWrapperIdentity(appName, correlationData.getId()).getId());
+		messageWrapper.setAppName(appName);
+		messageWrapper.setMessageSenderName(correlationData.getMessageSenderName());
+		messageWrapper.setMessageConfirmCheckerName(correlationData.getMessageConfirmCheckerName());
 		messageWrapper.setMessage(message);
 		return messageWrapper;
 	}

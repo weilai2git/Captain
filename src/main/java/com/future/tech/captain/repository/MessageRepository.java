@@ -2,17 +2,16 @@ package com.future.tech.captain.repository;
 
 import java.util.List;
 
-import com.future.tech.captain.api.CorrelationData;
-
 import com.future.tech.captain.domain.MessageWrapper;
+import com.future.tech.captain.domain.MessageWrapperIdentity;
 
 public interface MessageRepository {
 	
 	MessageWrapper store(MessageWrapper messageWrapper);
 	
-	void remove(CorrelationData correlationData);
+	void remove(MessageWrapperIdentity messageWrapperIdentity);
 	
-	MessageWrapper loadMessage(CorrelationData correlationData);
+	MessageWrapper loadMessage(MessageWrapperIdentity messageWrapperIdentity);
 	
-	List<MessageWrapper> findAllMessage(CorrelationData correlationData);
+	List<MessageWrapper> findByAppName(String appName, int limit);
 }

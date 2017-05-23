@@ -9,7 +9,15 @@ public class MessageWrapper {
 	@Id
 	private String id;
 	
-	private String qName;
+	private String appName;
+	
+	private String messageSenderName;
+	
+	private String messageConfirmCheckerName;
 	
 	private Object message;
+	
+	public MessageWrapperIdentity getIdentity() {
+		return new MessageWrapperIdentity(this.id);
+	}
 }

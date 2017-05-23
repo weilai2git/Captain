@@ -1,16 +1,16 @@
 /**
  * 
  */
-package com.future.tech.captain.repository.impl;
+package com.future.tech.captain.repository.mongodb;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.PageRequest;
 
-import com.future.tech.captain.api.CorrelationData;
 import com.future.tech.captain.dao.MessageMongodbDAO;
 import com.future.tech.captain.domain.MessageWrapper;
+import com.future.tech.captain.domain.MessageWrapperIdentity;
 import com.future.tech.captain.repository.MessageRepository;
 
 /**
@@ -23,8 +23,7 @@ import com.future.tech.captain.repository.MessageRepository;
  * @author weilai
  * May 19, 2017
  */
-@Repository
-public class MessageRepositoryImpl implements MessageRepository {
+public class MessageRepositoryMongoDBImpl implements MessageRepository {
 	
 	@Autowired
 	private MessageMongodbDAO messageMongodbDAO;
@@ -41,24 +40,25 @@ public class MessageRepositoryImpl implements MessageRepository {
 	 * @see com.future.tech.captain.repository.MessageRepository#remove(com.future.tech.captain.api.CorrelationData)
 	 */
 	@Override
-	public void remove(CorrelationData correlationData) {
-		messageMongodbDAO.delete(correlationData.getId());
+	public void remove(MessageWrapperIdentity messageWrapperIdentity) {
+		messageMongodbDAO.delete(messageWrapperIdentity.getId());
 	}
 
 	/* (non-Javadoc)
 	 * @see com.future.tech.captain.repository.MessageRepository#loadMessage(com.future.tech.captain.api.CorrelationData)
 	 */
 	@Override
-	public MessageWrapper loadMessage(CorrelationData correlationData) {
-		return messageMongodbDAO.findOne(correlationData.getId());
+	public MessageWrapper loadMessage(MessageWrapperIdentity messageWrapperIdentity) {
+		return messageMongodbDAO.findOne(messageWrapperIdentity.getId());
 	}
 
 	/* (non-Javadoc)
-	 * @see com.future.tech.captain.repository.MessageRepository#findAllMessage(com.future.tech.captain.api.CorrelationData)
+	 * @see com.future.tech.captain.repository.MessageRepository#findByAppName(java.lang.String)
 	 */
 	@Override
-	public List<MessageWrapper> findAllMessage(CorrelationData correlationData) {
-		return messageMongodbDAO.findAll();
+	public List<MessageWrapper> findByAppName(String appName, int limit) {
+		PageRequest pageRequest = new PageRequest(0, limit);
+		return messageMongodbDAO.findByAppName(appName, pageRequest);
 	}
-
+	
 }

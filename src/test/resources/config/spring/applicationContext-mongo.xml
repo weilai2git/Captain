@@ -23,5 +23,7 @@
 	</bean>
 
 	<mongo:repositories base-package="com.future.tech.captain.dao" />
+	
+	<bean id="captain.repository" class="com.future.tech.captain.repository.mongodb.MessageRepositoryMongoDBImpl"></bean>
 
 </beans>
