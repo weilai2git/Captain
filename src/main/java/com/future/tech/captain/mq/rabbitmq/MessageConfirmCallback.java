@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.support.CorrelationData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.future.tech.captain.domain.MessageWrapper;
 import com.future.tech.captain.domain.MessageWrapperIdentity;
 import com.future.tech.captain.repository.MessageRepository;
 
@@ -41,7 +42,10 @@ public class MessageConfirmCallback implements RabbitTemplate.ConfirmCallback {
 		if (ack) {
 			// remove message
 			MessageWrapperIdentity messageWrapperIdentity = new MessageWrapperIdentity(correlationData.getId());
-			messageRepository.remove(messageWrapperIdentity);
+			MessageWrapper messageWrapper = messageRepository.loadMessage(messageWrapperIdentity);
+			if ( messageWrapper != null && messageWrapper.confirm() ) {
+				messageRepository.store(messageWrapper);
+			}
 		} else {
 			// wait for retry
 			log.error("Send Message Error, CorrelationData.id = " + correlationData.getId() + ", cause = " + cause);
