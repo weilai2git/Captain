@@ -18,7 +18,9 @@ public class CorrelationData {
 	
 	private String id;
 	
-	private String refQueueName;
+	private String messageSenderName;
+	
+	private String messageConfirmCheckerName;
 
 	public String getId() {
 		return id;
@@ -28,12 +30,20 @@ public class CorrelationData {
 		this.id = id;
 	}
 
-	public String getRefQueueName() {
-		return refQueueName;
+	public String getMessageSenderName() {
+		return messageSenderName;
 	}
 
-	public void setRefQueueName(String refQueueName) {
-		this.refQueueName = refQueueName;
+	public void setMessageSenderName(String messageSenderName) {
+		this.messageSenderName = messageSenderName;
+	}
+
+	public String getMessageConfirmCheckerName() {
+		return messageConfirmCheckerName;
+	}
+
+	public void setMessageConfirmCheckerName(String messageConfirmCheckerName) {
+		this.messageConfirmCheckerName = messageConfirmCheckerName;
 	}
 	
 }

@@ -7,7 +7,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "classpath:/config/spring/applicationContext.xml",
 		"classpath:/config/spring/applicationContext-mongo.xml",
-		"classpath:/config/spring/applicationContext-rabbitMq.xml" })
+		"classpath:/config/spring/applicationContext-rabbitMq.xml",
+		"classpath:/config/spring/applicationContext-reliableMessageConfig.xml"})
 public abstract class AbstractSpringTests {
 
 }
