@@ -12,6 +12,7 @@
 		<property name="messageSenderHolder">
 			<map key-type="java.lang.String">
 				<entry key="myMessageSender" value-ref="captain.defaultRabbitMQSender"></entry>
+				<entry key="myRocketMqMessageSender" value-ref="captain.defaultRocketMqSender"></entry>
 			</map>
 		</property>
 		<property name="messageConfirmCheckerHolder">

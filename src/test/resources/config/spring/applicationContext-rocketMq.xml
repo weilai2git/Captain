@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+	<bean id="captain.rocketMq.producer" class="org.apache.rocketmq.client.producer.DefaultMQProducer"
+		init-method="start" >
+		<property name="producerGroup" value="TestName"></property>
+		<property name="namesrvAddr" value="127.0.0.1:9876"></property>
+	</bean>
+	
+	<bean id="captain.defaultRocketMqSender" class="com.future.tech.captain.mq.rocketmq.MessageSenderRocketMQImpl">
+		<property name="topic" value="Rocket_test_topic"></property>
+		<property name="tags" value="Rocket_test_tag"></property>
+	</bean>
+
+</beans>
