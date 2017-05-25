@@ -5,7 +5,6 @@ package com.future.tech.captain.lock.zk;
 
 import java.util.concurrent.TimeUnit;
 
-import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -34,9 +33,6 @@ public class DistributedLockZookeeperImpl implements DistributedLock {
 
 	private static final String LOCK_BASE_PATH = "/captain/lock/";
 
-	@Autowired
-	private CuratorFramework curatorClient;
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,7 +40,7 @@ public class DistributedLockZookeeperImpl implements DistributedLock {
 	 */
 	@Override
 	public boolean tryLock(long time, TimeUnit timeUnit) {
-		InterProcessMutex sharedLock = new InterProcessMutex(curatorClient, LOCK_BASE_PATH + config.getAppName());
+		InterProcessMutex sharedLock = new InterProcessMutex(config.getCuratorClient(), LOCK_BASE_PATH + config.getAppName());
 		try {
 			return sharedLock.acquire(time, timeUnit);
 		} catch (Exception e) {
@@ -60,7 +56,7 @@ public class DistributedLockZookeeperImpl implements DistributedLock {
 	 */
 	@Override
 	public void lock() throws Exception {
-		InterProcessMutex sharedLock = new InterProcessMutex(curatorClient, LOCK_BASE_PATH + config.getAppName());
+		InterProcessMutex sharedLock = new InterProcessMutex(config.getCuratorClient(), LOCK_BASE_PATH + config.getAppName());
 		sharedLock.acquire();
 	}
 
@@ -71,7 +67,7 @@ public class DistributedLockZookeeperImpl implements DistributedLock {
 	 */
 	@Override
 	public void unlock() {
-		InterProcessMutex sharedLock = new InterProcessMutex(curatorClient, LOCK_BASE_PATH + config.getAppName());
+		InterProcessMutex sharedLock = new InterProcessMutex(config.getCuratorClient(), LOCK_BASE_PATH + config.getAppName());
 		if (sharedLock.isAcquiredInThisProcess()) {
 			try {
 				sharedLock.release();

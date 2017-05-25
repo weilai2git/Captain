@@ -5,6 +5,8 @@ package com.future.tech.captain.config;
 
 import java.util.Map;
 
+import org.apache.curator.framework.CuratorFramework;
+
 import com.future.tech.captain.api.MessageConfirmChecker;
 import com.future.tech.captain.mq.MessageSender;
 
@@ -36,6 +38,10 @@ public class CaptainConfig {
 	@Setter
 	@Getter
 	private int jobWaitSecs = 30;
+	
+	@Setter
+	@Getter
+	private CuratorFramework curatorClient;
 
 	public MessageSender findMessageSender(String messageSenderName) {
 		return this.messageSenderHolder.get(messageSenderName);
