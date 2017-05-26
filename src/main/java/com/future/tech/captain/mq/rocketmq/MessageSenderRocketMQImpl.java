@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MessageSenderRocketMQImpl implements MessageSender {
 
-	@Autowired
+	@Setter
 	private DefaultMQProducer producer;
 
 	@Setter

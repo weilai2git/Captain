@@ -16,6 +16,7 @@
 	</bean>
 	
 	<bean id="captain.defaultRocketMqSender" class="com.future.tech.captain.mq.rocketmq.MessageSenderRocketMQImpl">
+		<property name="producer" ref="captain.rocketMq.producer"></property>
 		<property name="topic" value="Rocket_test_topic"></property>
 		<property name="tags" value="Rocket_test_tag"></property>
 	</bean>
