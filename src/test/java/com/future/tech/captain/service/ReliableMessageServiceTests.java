@@ -27,7 +27,7 @@ public class ReliableMessageServiceTests extends AbstractSpringTests{
 	@Test
 	public void prepare() {
 		CorrelationData correlationData = new CorrelationData();
-		correlationData.setId("16");
+		correlationData.setId("19");
 		correlationData.setMessageSenderName("myMessageSender");
 		correlationData.setMessageConfirmCheckerName("myMessageConfirmChecker");
 		String message = "Captain Test";
@@ -37,7 +37,7 @@ public class ReliableMessageServiceTests extends AbstractSpringTests{
 	@Test
 	public void confirm() {
 		CorrelationData correlationData = new CorrelationData();
-		correlationData.setId("12");
+		correlationData.setId("19");
 		reliableMessageService.confirm(correlationData);
 	}
 	
