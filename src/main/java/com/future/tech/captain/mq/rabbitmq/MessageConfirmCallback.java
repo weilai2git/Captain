@@ -38,7 +38,7 @@ public class MessageConfirmCallback implements RabbitTemplate.ConfirmCallback {
 	 * java.lang.String)
 	 */
 	@Override
-	public void confirm(CorrelationData correlationData, boolean ack, String cause) {
+	public void confirm(CorrelationData correlationData, boolean ack) {
 		if (ack) {
 			// remove message
 			MessageWrapperIdentity messageWrapperIdentity = new MessageWrapperIdentity(correlationData.getId());
@@ -48,7 +48,7 @@ public class MessageConfirmCallback implements RabbitTemplate.ConfirmCallback {
 			}
 		} else {
 			// wait for retry
-			log.error("Send Message Error, CorrelationData.id = " + correlationData.getId() + ", cause = " + cause);
+			log.error("Send Message Error, CorrelationData.id = " + correlationData.getId() );
 		}
 
 	}

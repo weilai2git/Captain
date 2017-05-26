@@ -32,8 +32,7 @@ public class MessageSenderRabbitMQImpl implements MessageSender {
 	 */
 	@Override
 	public boolean send(String correlationId, Object message) {
-		CorrelationData correlationData = new CorrelationData();
-		correlationData.setId(correlationId);
+		CorrelationData correlationData = new CorrelationData(correlationId);
 		rabbitTemplate.correlationConvertAndSend(message, correlationData);
 		return true;
 	}
