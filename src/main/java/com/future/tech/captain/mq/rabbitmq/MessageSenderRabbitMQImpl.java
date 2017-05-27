@@ -5,10 +5,10 @@ package com.future.tech.captain.mq.rabbitmq;
 
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.support.CorrelationData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.future.tech.captain.mq.MessageSender;
+
+import lombok.Setter;
 
 /**
  * 
@@ -19,10 +19,9 @@ import com.future.tech.captain.mq.MessageSender;
  * 
  * @author weilai May 19, 2017
  */
-@Component("captain.defaultRabbitMQSender")
 public class MessageSenderRabbitMQImpl implements MessageSender {
 
-	@Autowired
+	@Setter
 	private RabbitTemplate rabbitTemplate;
 
 	/*
@@ -32,8 +31,7 @@ public class MessageSenderRabbitMQImpl implements MessageSender {
 	 */
 	@Override
 	public boolean send(String correlationId, Object message) {
-		CorrelationData correlationData = new CorrelationData();
-		correlationData.setId(correlationId);
+		CorrelationData correlationData = new CorrelationData(correlationId);
 		rabbitTemplate.correlationConvertAndSend(message, correlationData);
 		return true;
 	}
