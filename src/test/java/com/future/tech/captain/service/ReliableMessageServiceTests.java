@@ -14,33 +14,32 @@ import com.future.tech.captain.api.CorrelationData;
  * Title: ReliableMessageServiceTests.java<br>
  * Description: <br>
  * Copyright: Copyright (c) 2017<br>
- * Company:  FutureTech<br>
+ * Company: FutureTech<br>
  * 
- * @author weilai
- * May 19, 2017
+ * @author weilai May 19, 2017
  */
 
-public class ReliableMessageServiceTests extends AbstractSpringTests{
+public class ReliableMessageServiceTests extends AbstractSpringTests {
 	@Autowired
 	private ReliableMessageService reliableMessageService;
-	
+
 	@Test
 	public void prepare() {
 		CorrelationData correlationData = new CorrelationData();
 		correlationData.setId("19");
 		correlationData.setMessageSenderName("myMessageSender");
 		correlationData.setMessageConfirmCheckerName("myMessageConfirmChecker");
-		String message = "Captain Test";
+		byte[] message = "Captain Test".getBytes();
 		reliableMessageService.prepare(correlationData, message);
 	}
-	
+
 	@Test
-	public void confirm() {
+	public void confirm() throws InterruptedException {
 		CorrelationData correlationData = new CorrelationData();
 		correlationData.setId("19");
 		reliableMessageService.confirm(correlationData);
 	}
-	
+
 	@Test
 	public void cancel() {
 		CorrelationData correlationData = new CorrelationData();
