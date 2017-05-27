@@ -26,8 +26,8 @@ public class ReliableMessageServiceTests extends AbstractSpringTests {
 	@Test
 	public void prepare() {
 		CorrelationData correlationData = new CorrelationData();
-		correlationData.setId("18");
-		correlationData.setMessageSenderName("myRocketMqMessageSender");
+		correlationData.setId("19");
+		correlationData.setMessageSenderName("myMessageSender");
 		correlationData.setMessageConfirmCheckerName("myMessageConfirmChecker");
 		byte[] message = "Captain Test".getBytes();
 		reliableMessageService.prepare(correlationData, message);
@@ -36,7 +36,7 @@ public class ReliableMessageServiceTests extends AbstractSpringTests {
 	@Test
 	public void confirm() throws InterruptedException {
 		CorrelationData correlationData = new CorrelationData();
-		correlationData.setId("18");
+		correlationData.setId("19");
 		reliableMessageService.confirm(correlationData);
 	}
 

@@ -30,4 +30,8 @@
 		mandatory="true" return-callback="captain.defaultRabbitMqReturnCallback"
 		confirm-callback="captain.defaultRabbitMqConfirmCallback" />
 
+	<!-- sender -->
+	<bean id="captain.defaultRabbitMQSender" class="com.future.tech.captain.mq.rabbitmq.MessageSenderRabbitMQImpl">
+		<property name="rabbitTemplate" ref="captain.rabbitmq.template"></property>
+	</bean>
 </beans>
