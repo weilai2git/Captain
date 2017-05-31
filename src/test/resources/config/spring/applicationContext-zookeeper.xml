@@ -8,7 +8,7 @@
         http://www.springframework.org/schema/context   
         http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 
-	<bean id="retryPolicy" class="org.apache.curator.retry.ExponentialBackoffRetry">
+	<bean id="captain.retryPolicy" class="org.apache.curator.retry.ExponentialBackoffRetry">
         <constructor-arg index="0" value="1000" /> 
         <constructor-arg index="1" value="3" />
     </bean>

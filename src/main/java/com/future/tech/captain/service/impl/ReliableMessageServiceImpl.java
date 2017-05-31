@@ -5,6 +5,7 @@ package com.future.tech.captain.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.future.tech.captain.api.CorrelationData;
 import com.future.tech.captain.config.CaptainConfig;
@@ -48,6 +49,19 @@ public class ReliableMessageServiceImpl implements ReliableMessageService {
 	 */
 	@Override
 	public boolean prepare(CorrelationData correlationData, Object message) {
+		if ( correlationData==null || StringUtils.isEmpty(correlationData.getId()) ) {
+			log.error("correlationData.id must not be empty!");
+			return false;
+		}
+		if (config.findMessageSender(correlationData.getMessageSenderName()) == null) {
+			log.error("Can not find message sender, sender name = " + correlationData.getMessageSenderName());
+			return false;
+		}
+		if (config.findMessageConfirmChecker(correlationData.getMessageConfirmCheckerName()) == null) {
+			log.error("Can not find message confirm checker, checker name = "
+					+ correlationData.getMessageConfirmCheckerName());
+			return false;
+		}
 		try {
 			MessageWrapper messageWrapper = messageWrapperFactory.make(config.getAppName(), correlationData, message);
 			messageWrapper = messageRepository.store(messageWrapper);
