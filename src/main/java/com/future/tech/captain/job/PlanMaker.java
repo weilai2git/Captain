@@ -16,6 +16,7 @@ import com.future.tech.captain.api.exception.NotSureException;
 import com.future.tech.captain.config.CaptainConfig;
 import com.future.tech.captain.domain.MessageWrapper;
 import com.future.tech.captain.domain.MessageWrapperIdentity;
+import com.future.tech.captain.mq.MessageSender;
 import com.future.tech.captain.repository.MessageRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -68,13 +69,18 @@ public class PlanMaker {
 		correlationData.setMessageSenderName(messageWrapper.getMessageSenderName());
 		boolean isNeed2Modify = false;
 		if (messageConfirmChecker.isMessageNeed2Send(correlationData)) {
-			config.findMessageSender(messageWrapper.getMessageSenderName()).send(messageWrapper.getId(),
-					messageWrapper.getMessage());
-			isNeed2Modify = messageWrapper.confirm();
+			MessageSender messageSender = config.findMessageSender(messageWrapper.getMessageSenderName());
+			if (messageSender == null) {
+				// Can not find messageSender, cancel message
+				isNeed2Modify = messageWrapper.cancel();
+			} else {
+				messageSender.send(messageWrapper.getId(), messageWrapper.getMessage());
+				isNeed2Modify = messageWrapper.confirm();
+			}
 		} else {
 			isNeed2Modify = messageWrapper.cancel();
 		}
-		if ( isNeed2Modify) {
+		if (isNeed2Modify) {
 			messageRepository.store(messageWrapper);
 		}
 	}
